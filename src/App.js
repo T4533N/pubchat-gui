@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import PubNub from "pubnub";
 import { PubNubProvider, usePubNub } from "pubnub-react";
 import React, { useState, useEffect } from "react";
@@ -164,7 +165,7 @@ function Chat({ channelName, username }) {
         setMessageHistory(response?.channels[channelName]);
       }
     );
-  }, [message, messages]);
+  }, [channelName, message, messages, pubnub]);
 
   console.log(messageHistory);
   return (
