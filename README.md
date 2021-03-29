@@ -46,7 +46,6 @@
 - PubNub Javascript SDK.  
 - dotenv.  
 - jest.  
-- bootstrap.
 
 ## Sources
 
