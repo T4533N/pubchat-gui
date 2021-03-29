@@ -20,7 +20,7 @@
 1. Navigate to the directory
 
    ```
-   cd chatApp
+   cd pubchat-gui
    ```
 
 1. Install the project.
@@ -41,14 +41,13 @@
 
 ## Dependencies
 
-React.  
-PubNub Javascript SDK.  
-dotenv.  
-jest.  
-bootstrap.
+- React.  
+- PubNub Javascript SDK.  
+- dotenv.  
+- jest.  
+- bootstrap.
 
 ## Sources
 
-- register with PubNub: https://admin.pubnub.com/#/user/567189/account/567140/home.
 - https://reactjs.org/docs/hooks-state.html.
 - https://www.pubnub.com/docs/sdks/javascript/.
