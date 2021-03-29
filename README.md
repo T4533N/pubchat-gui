@@ -3,7 +3,7 @@
 - send messages
 - receive messages
 - can see message history for 7 days
-- cli messages will be visible here
+- See pubchat-cli messages
 
 ## App screenshot
 
