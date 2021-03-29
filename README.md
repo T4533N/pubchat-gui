@@ -7,7 +7,8 @@
 
 ## App screenshot
 
-![Screenshot 2021-02-18 at 21 28 53](https://user-images.githubusercontent.com/71889577/108423859-4ebdf280-7230-11eb-92d7-a1a521fd1817.png)
+![image](https://user-images.githubusercontent.com/44163644/112882551-ebf12e00-90ee-11eb-81ac-80ff523552b5.png)
+
 
 ## Instructions to run the project:
 
