@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import PubNub from "pubnub";
 import { PubNubProvider, usePubNub } from "pubnub-react";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 function App() {
   const [username, setUsername] = useState("");
@@ -15,14 +15,23 @@ function App() {
     uuid: username,
   });
 
+  const localUsername = window.localStorage.getItem("username")?.trim();
+  const localChannel = window.localStorage.getItem("channel");
+
+  useEffect(() => {
+    if (localUsername && localChannel) {
+      setView(true);
+    }
+  }, [localUsername, localChannel]);
+
   return (
     <PubNubProvider client={pubnub}>
       <>
         {view ? (
-          <Chat channelName={channels} username={username} />
+          <Chat channelName={localChannel} username={localUsername} />
         ) : (
           <div style={pageStyles}>
-            <h1 style={{ color: "white" }}>Chat App</h1>
+            <h1 style={{ color: "white" }}>PubChat GUI</h1>
             <div
               style={{
                 padding: "2rem",
@@ -36,8 +45,9 @@ function App() {
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
+                  window.localStorage.setItem("username", username);
+                  window.localStorage.setItem("channel", channels);
                   setView(true);
-                  console.log("username:" + username, "channel:" + channels);
                 }}
                 style={{
                   display: "flex",
@@ -122,6 +132,7 @@ function Chat({ channelName, username }) {
   const [messages, addMessage] = useState([]);
   const [message, setMessage] = useState("");
   const [messageHistory, setMessageHistory] = useState([]);
+  const messageRef = useRef();
 
   //adding event handler - function expression
   const handleMessage = (event) => {
@@ -141,7 +152,7 @@ function Chat({ channelName, username }) {
         .publish({ channel: channels[0], message: formattedMessage })
         .then(() => setMessage(""))
         .catch((err) => {
-          pubnub.setUUID(username);
+          pubnub.setUUID(username.trim());
 
           console.log("err: ", err);
         });
@@ -167,12 +178,36 @@ function Chat({ channelName, username }) {
     );
   }, [channelName, message, messages, pubnub]);
 
-  console.log(messageHistory);
+  useEffect(() => {
+    messageRef?.current.scrollIntoView({
+      behavior: "smooth",
+      block: "end",
+    });
+  }, [messageHistory]);
+
   return (
     <div style={pageStyles}>
       <div style={chatStyles}>
-        <div style={headerStyles}>Chat App</div>
-        <div style={listStyles}>
+        <div style={headerStyles}>
+          <span>PubChat GUI</span>{" "}
+          <a
+            style={{
+              background: "white",
+              borderRadius: "0.2rem",
+              padding: "0.2rem 0.5rem",
+              textDecoration: "none",
+              fontSize: "1rem",
+              color: "#280d2e",
+            }}
+            onClick={() => {
+              window.localStorage.clear();
+            }}
+            href="/"
+          >
+            go back
+          </a>
+        </div>
+        <div ref={messageRef} style={listStyles}>
           {messageHistory?.map((r, index) => {
             return (
               <div key={`message-${index}`} style={messageStyles}>
@@ -228,8 +263,11 @@ const chatStyles = {
 const headerStyles = {
   background: "#7434eb",
   color: "white",
+  display: "flex",
+  justifyContent: "space-between",
   fontSize: "1.4rem",
   padding: "10px 15px",
+  fontWeight: "600",
 };
 
 const listStyles = {
@@ -262,7 +300,7 @@ const inputStyles = {
 };
 
 const buttonStyles = {
-  backgroundColor: "#3a86ff",
+  backgroundColor: "#7434eb",
   fontSize: "1.1rem",
   padding: "10px 15px",
   color: "white",
