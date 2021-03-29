@@ -1,3 +1,8 @@
+## Pubchat-GUI
+A simple React.js chatroom application using Pubnub's realtime chat api. This GUI interface is for those who hates terminal and loves to work with graphical interfaces.
+
+Use [CLI](https://github.com/T4533N/pubchat-cli) instead.
+
 ## Features
 
 - send messages
